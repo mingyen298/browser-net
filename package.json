@@ -1,6 +1,6 @@
 {
-  "name": "browser-net",
-  "version": "0.1.0",
+  "name": "browser-net2",
+  "version": "0.1.1",
   "description": "",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -14,11 +14,13 @@
   "private": false,
   "scripts": {
     "build": "rm -rf build/* && node ./node_modules/webpack/bin/webpack.js --config webpack/webpack.config.js",
+    "test": "rm -rf test/build/* && node ./node_modules/webpack/bin/webpack.js --config webpack/webpack.test.js",
     "prepare": "npm run build",
     "clean": "rm -rf build/*"
 
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^12.0.2",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
     "webpack": "^5.91.0",
