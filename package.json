@@ -6,7 +6,7 @@
   "types": "build/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/your-repository.git"
+    "url": "https://github.com/mingyen298/browser-net.git"
   },
   "keywords": ["chrome","extension" , "typescript"],
   "author": "CharlieHsieh <oe327188@gmail.com>",
