@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "./build/",
+    "noImplicitAny": true,
+    "module": "es2015",
+    "target": "ES6",
+    "allowJs": true,
+    "moduleResolution": "bundler",
+    "sourceMap": false,
+  },
+
+  "include": [
+    "./src/**/*"
+  ]
+}

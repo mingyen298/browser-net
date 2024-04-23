@@ -1,0 +1,31 @@
+{
+  "name": "browser-net",
+  "version": "0.1.0",
+  "description": "",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/your-repository.git"
+  },
+  "keywords": ["chrome","extension" , "typescript"],
+  "author": "CharlieHsieh <oe327188@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "rm -rf build/* && node ./node_modules/webpack/bin/webpack.js --config webpack/webpack.config.js",
+    "prepare": "npm run build",
+    "clean": "rm -rf build/*"
+
+  },
+  "devDependencies": {
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-merge": "^5.10.0"
+  },
+  "dependencies": {
+    "@types/chrome": "^0.0.266"
+  }
+}
