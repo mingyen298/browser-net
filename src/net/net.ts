@@ -1,4 +1,4 @@
-import { ConnectionBase, Connection } from "./connection";
+import { ConnectionBase, Connection , ConnectionWebsocket } from "./connection";
 
 
 export function Dial(): ConnectionBase {
@@ -16,3 +16,5 @@ export function Listen(callback: (conn: ConnectionBase) => void) {
     chrome.runtime.onConnect.addListener(processConnection);
 
 }
+
+export {ConnectionBase, Connection , ConnectionWebsocket}

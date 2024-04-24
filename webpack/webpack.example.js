@@ -6,12 +6,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   mode: 'production',
   entry: {
-    main: PATHS.test_src + '/main.js',
-    sw: PATHS.test_src + '/sw.js',
-    popup: PATHS.test_src + '/popup.js',
+    main: PATHS.example_src + '/main.ts',
+    sw: PATHS.example_src + '/sw.ts',
+    popup: PATHS.example_src + '/popup.ts',
   },
   output: {
-    path: PATHS.test_build,
+    path: PATHS.example_build,
     filename: '[name].js',
   },
   stats: {
@@ -21,8 +21,20 @@ module.exports = {
   },
   optimization: {
     minimize: false
-  }
-  ,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
+  },
+
   plugins: [
     // Copy static assets from `public` folder to `build` folder
     new CopyWebpackPlugin({

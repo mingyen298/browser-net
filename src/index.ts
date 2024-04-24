@@ -1,5 +1,6 @@
-import { Client } from "./client/client";
-import { Router } from "./router/router";
+import * as client from "./client/client";
+import * as router from "./router/router";
+import * as net from "./net/net";
 
 
-export {Client,Router}
+export {client,router,net}
