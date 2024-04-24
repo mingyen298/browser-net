@@ -41,7 +41,7 @@ module.exports = {
       patterns: [
         {
           from: '**/*',
-          context: 'test/public',
+          context: 'example/public',
         },
       ]
     })
