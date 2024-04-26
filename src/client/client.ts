@@ -1,5 +1,6 @@
 import { ConnectionBase } from "../net/connection";
 import * as net from '../net/net';
+import { uuid } from "../utils";
 import { PacketController } from "../packet/controller";
 import { Packet, PacketStatus } from "../packet/packet";
 
@@ -23,13 +24,13 @@ export class Client {
 
     }
     shot(uri: string, content: any): void {
-        const packet = new Packet(uri, content, PacketStatus.Pass);
+        const packet = new Packet(uuid(),uri, content, PacketStatus.Pass);
         this.conn.send(packet);
     }
 
     async send(uri: string, content: any): Promise<Packet> {
         var p: Packet = null;
-        const packet = new Packet(uri, content, PacketStatus.Rising);
+        const packet = new Packet(uuid(),uri, content, PacketStatus.Rising);
 
         const track = await this.packetController.registerPacket(packet);
         if (track === null) {

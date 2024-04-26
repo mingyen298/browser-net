@@ -36,11 +36,12 @@ export class RouterBase {
                         packet.status = PacketStatus.Processing;
                     }
                     this.packetTable.set(packet.id, conn.sessionID);
-                    const p = this.handle(packet);
+                    const p = this.handle(packet.clone());
                     
                     if (p instanceof Packet && p !== null) {
                         p.status = PacketStatus.Finished;
-                        conn.send(p);
+                        packet.update(p);
+                        conn.send(packet);
                     }
                 }
                 this.packetTable.delete(packet.id);

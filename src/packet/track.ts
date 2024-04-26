@@ -44,8 +44,7 @@ export class PacketTrack {
      */
     finish(packet:Packet = null) {
         if (packet !== null) {
-            this.packet.content = packet.content;
-            this.packet.status = packet.status;
+            this.packet.update(packet);
         }
         this.track.setResult(true);
     }
