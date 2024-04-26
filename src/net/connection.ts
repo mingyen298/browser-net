@@ -1,5 +1,6 @@
 
-
+import { plainToInstance, instanceToPlain } from 'class-transformer';
+import { Packet } from '../packet/packet';
 
 class WebsocketDaemon {
     private webSocket: WebSocket = null;
@@ -84,7 +85,7 @@ class WebsocketDaemon {
 
 export abstract class ConnectionBase {
     protected _sessionID: string = '';
-    protected _onPacket: (conn: ConnectionBase, packet: any) => void = null;
+    protected _onPacket: (conn: ConnectionBase, packet: Packet) => void = null;
     protected _onDisconnect: (conn: ConnectionBase) => void = null;
     constructor() { 
         // this._onPacket = undefined;
@@ -92,14 +93,14 @@ export abstract class ConnectionBase {
     get sessionID(): string {
         return this._sessionID
     }
-    set onPacket(handle: (conn: ConnectionBase, packet: any) => void) {
+    set onPacket(handle: (conn: ConnectionBase, packet: Packet) => void) {
         this._onPacket = handle;
     }
     set onDisconnect(handle: (conn: ConnectionBase) => void) {
         this._onDisconnect = handle;
     }
 
-    abstract send(packet: any): void;
+    abstract send(packet: Packet): void;
     abstract close(): void;
 
 }
@@ -113,7 +114,8 @@ export class Connection extends ConnectionBase {
         this._sessionID = port.name;
         this.port.onMessage.addListener((message) => {
             if (this._onPacket !== null) {
-                this._onPacket(this, message);
+                const packet = plainToInstance(Packet,message);
+                this._onPacket(this, packet);
             }
         });
         this.port.onDisconnect.addListener(() => {
@@ -126,8 +128,8 @@ export class Connection extends ConnectionBase {
 
 
 
-    send(packet: any) {
-        this.port.postMessage(packet);
+    send(packet: Packet) {
+        this.port.postMessage(instanceToPlain(packet));
     }
 
     close() {
@@ -145,15 +147,16 @@ export class ConnectionWebsocket extends ConnectionBase {
         this.webSocket.start();
         this.webSocket.onPacket = async (message) => {
             if (this._onPacket !== null) {
-                this._onPacket(this, message);
+                const packet = plainToInstance(Packet,message);
+                this._onPacket(this, packet);
             }
         }
 
     }
 
-
-    send(packet: any) {
-        this.webSocket.send(packet);
+    
+    send(packet: Packet) {
+        this.webSocket.send(instanceToPlain(packet));
     }
 
     close() {}
