@@ -3,14 +3,16 @@
     "declaration": true,
     "outDir": "./build/",
     "noImplicitAny": true,
-    "module": "ES6",
+    "module": "Node16",
     "target": "ES6",
     "allowJs": true,
-
+    "moduleResolution": "Node16",
     "sourceMap": false,
   },
-
   "include": [
     "./src/**/*"
+  ],
+  "exclude": [
+    "./example/**/*",
   ]
 }
