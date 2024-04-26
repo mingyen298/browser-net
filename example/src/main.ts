@@ -1,15 +1,24 @@
 
 
-import { client , router } from "../../build/index";
+import { client , router ,utils} from "../../build/index";
 
 
 
 const c = new client.Client();
-c.listenPacket(async(conn,packet)=>{
-    console.log(packet);
+c.listenPacket(async(packet)=>{
+    // console.log(packet);
 });
 
-setInterval(()=>{
-    c.send(router.ExampleHandler.name , {name:'123'});
+setInterval(async ()=>{
+    const packet = await c.send(router.ExampleHandler.name , {name:'123'});
+    console.log(packet);
 },2000);
 
+// const c = new client.Client();
+// c.listenPacket(async(packet)=>{
+//     console.log(packet);
+// });
+
+// setInterval(()=>{
+//     c.shot(router.ProxyExampleHandler.name , {name:'123'});
+// },2000);
