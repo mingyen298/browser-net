@@ -99,7 +99,20 @@ export abstract class ConnectionBase {
     set onDisconnect(handle: (conn: ConnectionBase) => void) {
         this._onDisconnect = handle;
     }
+    protected async onPacketRecived(packData:any){
+        if (this._onPacket !== null) {
+            const packet = plainToInstance(Packet,packData);
+            if (packet instanceof Packet && packet !== null){
+                this._onPacket(this, packet);
+            }
+        }
+    }
 
+    protected async onDisconnected(){
+        if (this._onDisconnect !== null) {
+            this._onDisconnect(this);
+        }
+    }
     abstract send(packet: Packet): void;
     abstract close(): void;
 
@@ -112,18 +125,8 @@ export class Connection extends ConnectionBase {
         super()
         this.port = port;
         this._sessionID = port.name;
-        this.port.onMessage.addListener((message) => {
-            if (this._onPacket !== null) {
-                const packet = plainToInstance(Packet,message);
-                this._onPacket(this, packet);
-            }
-        });
-        this.port.onDisconnect.addListener(() => {
-            if (this._onDisconnect !== null) {
-                this._onDisconnect(this);
-            }
-
-        });
+        this.port.onMessage.addListener(this.onPacketRecived.bind(this));
+        this.port.onDisconnect.addListener(this.onDisconnected.bind(this));
     }
 
 
@@ -145,12 +148,7 @@ export class ConnectionWebsocket extends ConnectionBase {
         this._sessionID = Math.random().toString(16).substring(2, 16);
         this.webSocket = new WebsocketDaemon(url);
         this.webSocket.start();
-        this.webSocket.onPacket = async (message) => {
-            if (this._onPacket !== null) {
-                const packet = plainToInstance(Packet,message);
-                this._onPacket(this, packet);
-            }
-        }
+        this.webSocket.onPacket = this.onPacketRecived.bind(this);
 
     }
 
